@@ -1,4 +1,4 @@
-module portkiller
+module github.com/ayushsharma74/portkiller
 
 go 1.25.2
 

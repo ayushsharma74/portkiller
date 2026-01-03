@@ -53,21 +53,6 @@ scoops:
     description: "Simple TUI to kill open ports."
     license: MIT
 
-# 3. WINGET (Windows Official)
-winget:
-  - name: portkiller
-    publisher: ayushsharma74
-    license: MIT
-    copyright: Copyright (c) 2026 Ayush Sharma
-    homepage: "https://github.com/ayushsharma74/portkiller"
-    short_description: "Simple TUI to kill open ports"
-    publisher_url: "https://github.com/ayushsharma74"
-    package_identifier: "ayushsharma74.portkiller"
-    # To fix the error, we simplify the repository block
-    repository:
-      owner: microsoft
-      name: winget-pkgs
-      branch: master
 
 changelog:
   sort: asc

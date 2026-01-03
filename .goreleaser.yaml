@@ -1,19 +1,9 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
-# Make sure to check the documentation at https://goreleaser.com
-
-# The lines below are called `modelines`. See `:help modeline`
-# Feel free to remove those if you don't want/need to use them.
-# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
-# vim: set ts=2 sw=2 tw=0 fo=cnqoj
-
 version: 2
 project_name: portkiller
 
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod tidy
-    # you may remove this if you don't need go generate
     - go generate ./...
 
 builds:
@@ -23,7 +13,6 @@ builds:
       - linux
       - windows
       - darwin
-
     goarch:
       - amd64
       - arm64
@@ -31,28 +20,54 @@ builds:
 
 archives:
   - formats: [tar.gz]
-    # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
-    # use zip for windows archives
     format_overrides:
       - goos: windows
         formats: [zip]
+
+# 1. HOMEBREW (macOS/Linux)
 brews:
   - name: portkiller
     repository:
       owner: ayushsharma74
-      name: homebrew-tap # The separate repo you created
+      name: homebrew-tap
     directory: Formula
     homepage: "https://github.com/ayushsharma74/portkiller"
-    description: "Simple TUI to kill open ports, written in go using bubbletea and lipgloss."
+    description: "Simple TUI to kill open ports, written in Go."
     install: |
       bin.install "portkiller"
+
+# 2. SCOOP (Windows Devs)
+scoops:
+  - name: portkiller
+    repository:
+      owner: ayushsharma74
+      name: scoop-bucket # Create this repo on GitHub
+    directory: bucket
+    homepage: "https://github.com/ayushsharma74/portkiller"
+    description: "Simple TUI to kill open ports."
+    license: MIT
+
+# 3. WINGET (Windows Official)
+winget:
+  - name: portkiller
+    publisher: ayushsharma74
+    license: MIT
+    copyright: Copyright (c) 2026 Ayush Sharma
+    homepage: "https://github.com/ayushsharma74/portkiller"
+    short_description: "Simple TUI to kill open ports"
+    publisher_url: "https://github.com/ayushsharma74"
+    package_identifier: "ayushsharma74.portkiller"
+    # To fix the error, we simplify the repository block
+    repository:
+      owner: microsoft
+      name: winget-pkgs
+      branch: master
 
 changelog:
   sort: asc
@@ -63,7 +78,4 @@ changelog:
 
 release:
   footer: >-
-
-    ---
-
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
